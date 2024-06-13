@@ -1,10 +1,16 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
 
-const sourceDir = path.join( 'src', 'posts');
-const targetDir = path.join( 'src', 'app', 'posts');
+const sourceDir = path.join('src','posts');
+const targetDir = path.join('src', 'app', 'posts');
 
-console.log(sourceDir, targetDir)
+async function updateImports(filePath: string): Promise<string> {
+    const content = await fs.readFile(filePath, 'utf8');
+    const updatedContent = content.replace(/import\s+\{.*\}\s+from\s+["'][.\/]+components\//g, match => {
+        return match.replace(/["'][.\/]+components\//, '"@/components/');
+    });
+    return updatedContent;
+}
 
 async function moveFiles() {
     try {
@@ -19,15 +25,24 @@ async function moveFiles() {
             // Create the target directory if it doesn't exist
             await fs.ensureDir(targetFolderPath);
 
-            // Move the file
-            console.log(`Moving ${sourceFilePath} to ${targetFilePath}`)
-            await fs.move(sourceFilePath, targetFilePath, { overwrite: true });
+            // Update imports in the file content
+            const updatedContent = await updateImports(sourceFilePath);
+
+
+            console.log(`Copying ${sourceFilePath} to ${targetFilePath}...`)
+            // Write the updated content to the new file location
+            await fs.writeFile(targetFilePath, updatedContent);
+            console.log("Success.")
+
         }
 
-        console.log('Files moved successfully');
+        console.log('Files moved and imports updated successfully');
     } catch (error) {
         console.error('Error moving files:', error);
     }
 }
 
 moveFiles();
+
+
+
