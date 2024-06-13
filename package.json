@@ -16,6 +16,7 @@
     "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18",
+    "react-github-permalink": "^1.6.0",
     "react-responsive": "^10.0.0"
   },
   "devDependencies": {
