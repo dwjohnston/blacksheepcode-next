@@ -1,3 +1,4 @@
+"use client"
 import dark from "../../assets/bsc_dark.webp";
 import light from "../../assets/bsc_light.webp";
 
