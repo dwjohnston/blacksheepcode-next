@@ -66,8 +66,6 @@ export async function FrontmatterBox(props: PropsWithChildren<{
     slug: string
 }>) {
 
-
-    console.log(props.slug)
     const frontmatter = await getFrontmatterFromSlug(props.slug);
 
     if (!frontmatter) {
