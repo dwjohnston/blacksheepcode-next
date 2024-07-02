@@ -10,7 +10,10 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "generate:mdxjson": "rm -rf src/generated/frontmatter && tsx utils/extractFrontMatter.bin.ts",
-    "generate:imagebarrel": "tsx utils/generateImageBarrelFiles.ts"
+    "generate:imagebarrel": "tsx utils/generateImageBarrelFiles.ts",
+    "generate:rss": "tsx utils/generateRss.ts",
+    "generate:sitemap": "tsx utils/generateSitemap.ts"
+
   },
   "dependencies": {
     "@mdx-js/loader": "^3.0.1",
