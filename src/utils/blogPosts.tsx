@@ -1,6 +1,6 @@
-// import * as allDraftMetaData from "../generated/frontmatter/drafts";
+import * as allDraftMetaData from "../generated/frontmatter/drafts";
 import * as allPostMetaData from "../generated/frontmatter/posts";
-// import * as allTestMetaData from "../generated/frontmatter/test";
+import * as allTestMetaData from "../generated/frontmatter/test";
 import type { EnrichedFrontMatterPlusSlug, FrontMatterPlusSlug } from "../../utils/frontmatterTypings";
 import * as allImages from "../generated/images";
 import { getDomainUrl } from "../../utils/getDomainUrl";
@@ -8,9 +8,9 @@ import { getDomainUrl } from "../../utils/getDomainUrl";
 export type BlogPostFolders = "drafts" | "posts" | "test";
 
 export const allMetadata = {
-    // "drafts": allDraftMetaData as Record<string, FrontMatterPlusSlug>,
+    "drafts": allDraftMetaData as Record<string, FrontMatterPlusSlug>,
     "posts": allPostMetaData as Record<string, FrontMatterPlusSlug>,
-    // "test": allTestMetaData as Record<string, FrontMatterPlusSlug>,
+    "test": allTestMetaData as Record<string, FrontMatterPlusSlug>,
 }
 
 
@@ -43,27 +43,27 @@ export function getFolderAndFilenameFromSlug(slug: string): {
  * @param slug 
  * @returns 
  */
-// export async function getFrontmatterFromSlug(slug: string): Promise<EnrichedFrontMatterPlusSlug> {
-//     const { folder, filename } = getFolderAndFilenameFromSlug(slug);
+export async function getFrontmatterFromSlug(slug: string): Promise<EnrichedFrontMatterPlusSlug> {
+    const { folder, filename } = getFolderAndFilenameFromSlug(slug);
 
-//     const data = allMetadata[folder][filename];
-//     if (!data) {
-//         throw new Error(`Frontmatter did not exist for slug: '${slug}`)
-//     }
+    const data = allMetadata[folder][filename];
+    if (!data) {
+        throw new Error(`Frontmatter did not exist for slug: '${slug}`)
+    }
 
-//     let seriesFrontmatter   : Array<FrontMatterPlusSlug> | null = null; 
+    let seriesFrontmatter   : Array<FrontMatterPlusSlug> | null = null; 
     
-//     // If it's a series, then we get the frontmatter for all of the series, so we can show the table of contents
-//     if ('series' in data.frontmatter) {
-//         seriesFrontmatter = (Object.values(allMetadata[folder]).filter((v) => {
-//             return v.frontmatter.series?.name === data.frontmatter.series?.name
-//         }) ).sort((a, b) => {
-//             return (a.frontmatter.series?.part ?? 0)  - (b.frontmatter.series?.part ?? 0)
-//         });
-//     }
+    // If it's a series, then we get the frontmatter for all of the series, so we can show the table of contents
+    if ('series' in data.frontmatter) {
+        seriesFrontmatter = (Object.values(allMetadata[folder]).filter((v) => {
+            return v.frontmatter.series?.name === data.frontmatter.series?.name
+        }) ).sort((a, b) => {
+            return (a.frontmatter.series?.part ?? 0)  - (b.frontmatter.series?.part ?? 0)
+        });
+    }
 
-//     return { ...data, seriesFrontmatter } as EnrichedFrontMatterPlusSlug;
-// }
+    return { ...data, seriesFrontmatter } as EnrichedFrontMatterPlusSlug;
+}
 
 
 // export function createLoaderFunction(folder: BlogPostFolders): LoaderFunction {
