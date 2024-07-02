@@ -8,12 +8,10 @@ export const metadata = {
 
 export default function PageLayout(props: PropsWithChildren, ...rest) {
 
-     console.log("layout", props, rest)
-
-
+    console.log("page", props, rest)
     return <div>
 
-        POSTS LAYOUT
+        POSTS PAGE
       
 
             {props.children}

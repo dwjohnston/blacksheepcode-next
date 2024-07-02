@@ -1,8 +1,8 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
 
-const sourceDir = path.join('src','posts');
-const targetDir = path.join('src', 'app', 'posts');
+const sourceDir = path.join('src', 'routes', 'test');
+const targetDir = path.join('src', 'app', 'test');
 
 async function updateImports(filePath: string): Promise<string> {
     const content = await fs.readFile(filePath, 'utf8');

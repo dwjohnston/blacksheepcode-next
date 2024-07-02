@@ -8,14 +8,14 @@ export const metadata = {
 
 export default function PageLayout(props: PropsWithChildren, ...rest) {
 
-     console.log("layout", props, rest)
-
+    console.log("tmeplate",props, rest);
 
     return <div>
 
-        POSTS LAYOUT
+        POSTS TEMPLATE
       
 
-            {props.children}
+      {props.children}
+
     </div>
 }

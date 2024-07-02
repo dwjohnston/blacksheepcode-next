@@ -8,12 +8,14 @@ export const metadata = {
 
 export default function PageLayout(props: PropsWithChildren, ...rest) {
 
-     console.log("layout", props, rest)
+     console.log("gci", props, rest)
 
 
     return <div>
 
-        POSTS LAYOUT
+        TOOLS LAYOUT
+
+        {JSON.stringify(props.params)}
       
 
             {props.children}

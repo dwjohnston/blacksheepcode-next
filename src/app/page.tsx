@@ -3,9 +3,16 @@ import styles from "./page.module.css";
 import { ListOfArticles } from "@/components/ListOfArticles/ListOfArticles";
 import { SheepImage } from "@/components/SheepImage/SheepImage";
 import { getAllPostFrontmatter } from "@/utils/blogPosts";
+import { Metadata } from "next";
 
 async function getAllArticles() {
   return getAllPostFrontmatter()
+}
+
+
+export const metadata: Metadata = {
+  title: "Black Sheep Code", 
+  description: "A blog about modern web development"
 }
 
 export default async function Home() {

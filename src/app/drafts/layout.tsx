@@ -6,9 +6,7 @@ export const metadata = {
     title: "hello"
 }
 
-export default function PageLayout(props: PropsWithChildren, ...rest) {
-
-     console.log("layout", props, rest)
+export default function PageLayout(props: PropsWithChildren) {
 
 
     return <div>
