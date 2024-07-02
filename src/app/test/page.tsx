@@ -6,7 +6,7 @@ export const metadata = {
 }
 
 async function getAllArticles() {
-    return getAllPostFrontmatter("drafts")
+    return getAllPostFrontmatter("test")
 }
 
 

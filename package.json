@@ -8,12 +8,13 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "test:watch": "jest --watch", 
+    "test:watch": "jest --watch",
     "generate:mdxjson": "rm -rf src/generated/frontmatter && tsx utils/extractFrontMatter.bin.ts",
     "generate:imagebarrel": "tsx utils/generateImageBarrelFiles.ts"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.0.1",
+    "@mdx-js/mdx": "^3.0.1",
     "@mdx-js/react": "^3.0.1",
     "@next/mdx": "^14.2.4",
     "@types/mdx": "^2.0.13",
@@ -24,6 +25,7 @@
     "react-dom": "^18",
     "react-github-permalink": "^1.6.0",
     "react-responsive": "^10.0.0",
+    "remark-frontmatter": "^5.0.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

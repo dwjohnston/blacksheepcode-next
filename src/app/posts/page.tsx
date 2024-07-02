@@ -1,19 +1,20 @@
-import { BlogPostFrame } from "@/components/BlogPostFrame/BlogPostFrame";
-import { PropsWithChildren } from "react";
-
+import { getAllPostFrontmatter } from "@/utils/blogPosts";
+import { ListOfArticles } from "@/components/ListOfArticles/ListOfArticles";
 
 export const metadata = {
     title: "hello"
 }
 
-export default function PageLayout(props: PropsWithChildren, ...rest) {
+async function getAllArticles() {
+    return getAllPostFrontmatter()
+}
 
-    console.log("page", props, rest)
+
+export default async function PageLayout() {
+
+    const articles = await getAllArticles();
     return <div>
 
-        POSTS PAGE
-      
-
-            {props.children}
+        <ListOfArticles allFrontmatter={articles} />
     </div>
 }

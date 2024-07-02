@@ -24,6 +24,8 @@ export function getFolderAndFilenameFromSlug(slug: string): {
 
     const [, folder, fName] = slug.split(/[?/#]/);
 
+
+
     if (!folder) {
         throw new Error("Expected folder to exist");
     }
@@ -51,14 +53,14 @@ export async function getFrontmatterFromSlug(slug: string): Promise<EnrichedFron
         throw new Error(`Frontmatter did not exist for slug: '${slug}`)
     }
 
-    let seriesFrontmatter   : Array<FrontMatterPlusSlug> | null = null; 
-    
+    let seriesFrontmatter: Array<FrontMatterPlusSlug> | null = null;
+
     // If it's a series, then we get the frontmatter for all of the series, so we can show the table of contents
     if ('series' in data.frontmatter) {
         seriesFrontmatter = (Object.values(allMetadata[folder]).filter((v) => {
             return v.frontmatter.series?.name === data.frontmatter.series?.name
-        }) ).sort((a, b) => {
-            return (a.frontmatter.series?.part ?? 0)  - (b.frontmatter.series?.part ?? 0)
+        })).sort((a, b) => {
+            return (a.frontmatter.series?.part ?? 0) - (b.frontmatter.series?.part ?? 0)
         });
     }
 
@@ -78,38 +80,39 @@ export async function getFrontmatterFromSlug(slug: string): Promise<EnrichedFron
 //         if(path.slice(1) === folder) {
 //             return null; 
 //         }
-        
-        
+
+
 //         return getFrontmatterFromSlug(path)
 //     }
 // }
 
 type ImageData = {
-    str: string, 
-    width: number, 
-    height: number,    
+    str: string,
+    width: number,
+    height: number,
 }
 
-export function getImageTags(imageName: string)  {
+export function getImageTags(imageName: string) {
 
     //@ts-expect-error
-    const image : ImageData | undefined =  allImages[imageName]; 
+    const image: ImageData | undefined = allImages[imageName];
 
 
-    if(!image){
+    if (!image) {
         return {};
     }
 
-   return {
-    "og:image": `${getDomainUrl()}${image.str}`,  
-    "og:image:width": image.width, 
-    "og:image:height": image.height, 
-    "twitter:image": `${getDomainUrl()}${image.str}`,
-    "twitter:image:width": image.width, 
-    "twitter:image:height": image.height, 
-   }}
+    return {
+        "og:image": `${getDomainUrl()}${image.str}`,
+        "og:image:width": image.width,
+        "og:image:height": image.height,
+        "twitter:image": `${getDomainUrl()}${image.str}`,
+        "twitter:image:width": image.width,
+        "twitter:image:height": image.height,
+    }
+}
 
-   
+
 
 function mergeFrontmatterAndDefaultMetadata(frontmatter: FrontMatterPlusSlug | null) {
 
@@ -119,7 +122,7 @@ function mergeFrontmatterAndDefaultMetadata(frontmatter: FrontMatterPlusSlug | n
 
     return {
         ...DEFAULT_METADATA,
-        ...(frontmatter.frontmatter.meta.image ?  getImageTags(frontmatter.frontmatter.meta.image) : {}), 
+        ...(frontmatter.frontmatter.meta.image ? getImageTags(frontmatter.frontmatter.meta.image) : {}),
         title: frontmatter.frontmatter.meta?.title,
         description: frontmatter.frontmatter?.meta?.description,
         "twitter:title": frontmatter.frontmatter.meta?.title,
@@ -127,17 +130,10 @@ function mergeFrontmatterAndDefaultMetadata(frontmatter: FrontMatterPlusSlug | n
     }
 }
 
-// export function createMetaFunction(folder: BlogPostFolders): MetaFunction {
-//     return (metaInput) => {
-//         const loaderResult = metaInput.data as FrontMatterPlusSlug | null;
-//         return mergeFrontmatterAndDefaultMetadata(loaderResult ?? null);
-//     }
-
-// }
 
 
-export async function getAllPostFrontmatter() :  Promise<Array<FrontMatterPlusSlug>> {
-    return Object.values(allPostMetaData as Record<string, FrontMatterPlusSlug>).sort((a,b) => {
+export async function getAllPostFrontmatter(group: BlogPostFolders = "posts"): Promise<Array<FrontMatterPlusSlug>> {
+    return Object.values(allMetadata[group] as Record<string, FrontMatterPlusSlug>).sort((a, b) => {
         return new Date(b.frontmatter.meta?.dateCreated ?? 0).valueOf() - new Date(a.frontmatter.meta?.dateCreated ?? 0).valueOf();
     });
 }
