@@ -1,5 +1,6 @@
 import { getAllPostFrontmatter } from "@/utils/blogPosts";
 import { ListOfArticles } from "@/components/ListOfArticles/ListOfArticles";
+import { notFound } from "next/navigation";
 
 export const metadata = {
     title: "hello"
@@ -11,7 +12,9 @@ async function getAllArticles() {
 
 
 export default async function PageLayout() {
-
+    if(process.env.NODE_ENV === "production") {
+        notFound();
+    }
     const articles = await getAllArticles();
     return <div>
 
