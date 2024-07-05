@@ -47,7 +47,6 @@ export function getFolderAndFilenameFromSlug(slug: string): {
  */
 export async function getFrontmatterFromSlug(slug: string): Promise<EnrichedFrontMatterPlusSlug> {
     const { folder, filename } = getFolderAndFilenameFromSlug(slug);
-
     const data = allMetadata[folder][filename];
     if (!data) {
         throw new Error(`Frontmatter did not exist for slug: '${slug}`)

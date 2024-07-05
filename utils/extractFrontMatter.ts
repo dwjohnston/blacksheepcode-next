@@ -37,29 +37,20 @@ async function _generateSubfolder(subPath: string) : Promise<string> {
  * @param appendIndexFile 
  * @param generateSubfolder 
  */
+export async function extractFrontMatter(folderPath: string, writeFile : WriteFileFn = _writeFile, appendIndexFile : AppendIndexFileFn = _appendIndexFile, generateSubfolder : CreateSubfolderFn = _generateSubfolder) {
 
-export async function extractFrontMatter(
-  folderPath: string, 
-  writeFile: WriteFileFn = _writeFile, 
-  appendIndexFile: AppendIndexFileFn = _appendIndexFile, 
-  generateSubfolder: CreateSubfolderFn = _generateSubfolder
-) {
-  const endToken = "page.mdx";
-
+  const endToken = ".mdx";
   function getParts(inputString: string): [string, string] {
     const startIndex = inputString.indexOf(folderPath);
     const endIndex = inputString.indexOf(endToken);
     if (startIndex !== -1 && endIndex !== -1) {
-      const extractedPart = inputString.substring(folderPath.length + 1, endIndex - 1);
+      const extractedPart = inputString.substring(folderPath.length + 1,  endIndex);
       const segments = extractedPart.split('/');
-      if (segments.length < 2) {
-        throw new Error("Expected an array of length at least 2");
+      if (segments.length !== 2) {
+        throw new Error("Expected an array of length 2")
       }
 
-      const subPath = segments.slice(0, -1).join('/');
-      const fileName = segments[segments.length - 1];
-
-      return [subPath, fileName];
+      return segments as [string, string];
     } else {
       throw new Error("String format is not as expected");
     }
@@ -86,13 +77,17 @@ export async function extractFrontMatter(
 
     const basePath = await generateSubfolder(subPath);
 
+
+
     await writeFile(path.join(basePath, fileName + ".json"), `${subPath}/${fileName}`, output.attributes);
     await appendIndexFile(path.join(basePath, 'index.js'), fileName);
-  }
+
+}
+
+
 
   async function findMdxFiles(folderPath: string) {
-    const promises: Array<Promise<unknown>> = [];
-
+    const promises = [] as Array<Promise<unknown>>;
     function traverseDir(currentPath: string) {
       const files = fs.readdirSync(currentPath);
 
@@ -101,7 +96,7 @@ export async function extractFrontMatter(
         const fileStats = fs.statSync(filePath);
         if (fileStats.isDirectory()) {
           traverseDir(filePath);
-        } else if (file === endToken) {
+        } else if (file.endsWith('.mdx')) {
           promises.push(processFile(filePath));
         }
       });
@@ -111,5 +106,6 @@ export async function extractFrontMatter(
     await Promise.all(promises);
   }
 
-  await findMdxFiles(folderPath);
+  await findMdxFiles(folderPath)
 }
+
